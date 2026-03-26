@@ -1,5 +1,6 @@
-
 -- 4. labor
+
+import Data.List (sort, group, sortOn)
 
 --I. Definiáljuk azt a Haskell-listát, amely tartalmazza:
 
@@ -152,7 +153,6 @@ maxPoziciokEgyszer (x:xs) = reverse (kereso xs 1 x [0])
       | otherwise     = kereso ys (i + 1) maxEddig indexek       -- Kisebb elem, megyünk tovább.
 
 -- meghatározza egy lista leggyakrabban előforduló elemét.
-import Data.List (sort, group, sortOn)
 
 leggyakoribb :: Ord a => [a] -> a
 leggyakoribb [] = error "Üres listának nincs leggyakoribb eleme!"
