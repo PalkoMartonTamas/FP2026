@@ -11,10 +11,99 @@ import Data.Char
 --II. Írjunk Haskell-függvényt, amely a foldl vagy a foldr függvényt alkalmazva
 
 -- implementálja a length, sum, elem, reverse, product, maximum, insert-sort, ++, map, filter függvényeket,
+
+myLengthL ls = foldl op 0 ls
+    where
+        op res acc = res + 1
+    
+myLengthR ls = foldr op 0 ls
+    where
+        op acc res = res + 1
+
+mySumL ls = foldl op 0 ls
+    where
+        op res acc = res + acc
+
+mySumR ls = foldr op 0 ls
+    where
+        op acc res = acc + res  
+
+myElemL c ls = foldl (op c) False ls
+    where
+        op c res acc
+            | c == acc = True
+            | otherwise = res
+
+myElemR c ls = foldr (op c) False ls
+    where
+        op c acc res = if c == acc then True else res
+
+myReverseL ls = foldl op [] ls
+    where 
+        op res acc = acc : res
+
+myReverseR ls = foldr op [] ls
+    where
+        op acc res = res ++ [acc]
+
+myProductL ls = foldl op 1 ls
+    where
+        op res acc = res * acc
+
+myProductR ls = foldr op 1 ls
+    where
+        op acc res = acc * res
+
+myMaximumL ls = foldl1 op ls
+    where
+        op res acc
+            | res > acc = res
+            | otherwise = acc
+
+myMaximumR ls = foldr1 op ls
+    where
+        op acc res
+            | acc > res = acc
+            | otherwise = res
+
+myMap fg ls = foldr (op fg) [] ls
+    where
+        op fg acc res = fg acc : res
+
+myFilter fg ls = foldr (op fg) [] ls
+    where
+        op fg acc res
+            | fg acc = acc : res
+            | otherwise = res
+
+
 -- meghatározza egy lista pozitív elemeinek összegét,
+mySumP ls = foldr op 0 ls
+    where
+        op acc res
+            | acc > 0 = acc + res
+            | otherwise = res
+
 -- egy lista páros elemeinek szorzatát,
+myProductP ls = foldr op 1 ls
+    where
+        op acc res
+            | even acc = acc * res
+            | otherwise = res
+
 -- n-ig a négyzetszámokat.
+myParosNegyzet n = foldr op [] [1..n] 
+    where
+        op acc res
+            | acc * acc < n = acc * acc : res
+            | otherwise = res
+            
+
 -- meghatározza a $$P(x) = a_0 + a_1 x + a_2 x^2 + \ldots + a_n x^n$$ polinom adott $x_0$ értékre való behelyettesítési értékét: $$a_0 + x_0(a_1 + x_0(a_2 + x_0(a_3 + \ldots + x_0(a_{n-1}+ x_0 \cdot a_n))))$$
+myPolinom x0 ls = foldr (op x0) 0 ls
+    where
+        op x0 acc res = acc + x0 * res
+
 
 --III.
 
@@ -119,9 +208,6 @@ main = do
     putStrLn $ "Kolozsvar madarfaja : " <> madarLsCJ <> " ossz populációja: " <> show ered3
 
     
-
-
-
 -- Írjunk egy atlagTu Haskell-függvényt, amely egy kételemű, tuple elemtípusú lista esetében átlagértékeket számol a második elem szerepét betöltő listaelemeken. Az eredmény egy tuple elemtípusú lista legyen, amelynek kiíratása során a tuple-elemeket formázzuk, és külön sorba írjuk őket.
  -- Például:
 
