@@ -1,4 +1,5 @@
 -- Parcialis feladatok
+{- HLINT ignore "Use camelCase" -}
 
 import Data.List (sort, group)
 import Data.Char (isDigit)
@@ -126,6 +127,7 @@ fel3 = do
 --lsS = Mari Zsuzsa szidi Lori kata feri teri Dani zsolti
 -- ● Kimenet: feri baloldali szomszedja Zsuzsa, jobboldali szomszedja pedig kata
 
+szomszedok :: String -> [String] -> IO ()
 szomszedok s lsS = do
 
     let rendezettLista = sort lsS
@@ -134,10 +136,10 @@ szomszedok s lsS = do
     let jobboldaliSzomszed = [x | x <- rendezettLista, x > s]
 
     let jobb = if null jobboldaliSzomszed then "nincs" else last jobboldaliSzomszed
-    let ball = if null baloldaliSzomszed then "nincs" else head baloldaliSzomszed
+    let bal = if null baloldaliSzomszed then "nincs" else head baloldaliSzomszed
 
     putStrLn $ "Rendezett lista: " ++ show rendezettLista
-    putStrLn $ s ++ " baloldali szomszedja " ++ ball ++ ", jobboldali szomszedja pedig " ++ jobb
+    putStrLn $ s ++ " baloldali szomszedja " ++ bal ++ ", jobboldali szomszedja pedig " ++ jobb
 
 fel4 = do
     --4. feladat tesztelése
@@ -217,3 +219,93 @@ fel6 = do
     --6. feladat tesztelése
     let szamok = [1, 1, 2, 3, 4, 2, 6, 2, 4, 4, 2, 6, 7, 6, 6, 2]
     paratlanElofordulas szamok
+
+
+
+--7.Egy [(String, Double, Int)] típusú lista elemei egy film címét, az értékelését (pl. 8.5) és a kiadás évét tartalmazzák. 
+--Írj egy Haskell függvényt, amely meghatározza azokat a filmeket, amelyeket egy adott ev-nél később adtak ki, 
+--ÉS az értékelésük szigorúan nagyobb, mint 8.0. A kapott filmcímeket ábécé sorrendbe rendezve, 
+--kötőjellel listázva írd ki a képernyőre.
+
+--Bemenet: 2010 [("Eredet", 8.8, 2010), ("Interstellar", 8.6, 2014), ("Dune", 8.0, 2021), ("Joker", 8.4, 2019), ("Avatar", 7.8, 2009)]
+
+--Kimenet:
+
+--Kivétel: Ha nincs ilyen film, a kimenet: "Nincs a felteteleknek megfelelo film."
+
+
+filmek_rendez filmek n = do
+
+    let szurFilmek = [cim | (cim, ertekeles, ev) <- filmek, ev > n && ertekeles > 8.0]
+
+    let rendezFilmek = sort szurFilmek
+
+    if null rendezFilmek
+         then putStrLn "Nincs ilyen film."
+            else do
+                putStrLn "A felteteleknek megfelelo filmek a kovetkezok:"
+                mapM_ (\film -> putStrLn $ "- " ++ film) rendezFilmek
+
+fel7 = do
+    --7. feladat tesztelése
+    let filmek = [("Eredet", 8.8, 2010), ("Interstellar", 8.6, 2014), ("Dune", 8.0, 2021), ("Joker", 8.4, 2019), ("Avatar", 7.8, 2009)]
+    filmek_rendez filmek 2010
+
+
+palindromStringek ls = do
+
+    let palindromok = [s | s <- ls, s == reverse s]
+
+    if null palindromok
+         then putStrLn "Nincs palindrom szo a listaban."
+         else do
+             putStrLn "A palindrom szavak a listaban:"
+             mapM_ putStrLn palindromok
+
+fel8 = do
+    --8. feladat tesztelése
+    let szavak = ["level", "hello", "world", "radar", "haskell", "madam"]
+    palindromStringek szavak
+
+
+gyakorisagSzamok szamok = do
+
+    let csoportok = group $ sort szamok
+
+    let gyakorisag = [head csoport | csoport <- csoportok, length csoport == 2]
+
+    let rendezCsok = reverse $ sort gyakorisag
+
+    if null gyakorisag
+        then putStrLn "Nincs olyan szam, amely pontosan kétszer fordul elő."
+        else do
+            putStrLn "Azok a szamok, amelyek pontosan kétszer fordulnak elo: "
+            mapM_ (\ertek -> putStrLn $ "Ertek: " ++ show ertek) rendezCsok
+
+
+fel9 = do
+    --9. feladat tesztelése
+    let szamok = [1, 2, 3, 4, 2, 5, 6, 1, 7, 8]
+    gyakorisagSzamok szamok
+
+
+
+raktarKeszlet termekek = do
+
+    let maxErtek = maximum [db * ar | (_, db, ar) <- termekek]
+
+    let topTermek = [nev | (nev, db, ar) <- termekek, db * ar == maxErtek]
+
+    if null topTermek
+        then putStrLn "Nincs termek a raktarban."
+        else do
+            putStrLn $ "A legnagyobb ertek: " ++ show maxErtek ++ ". A termekek, amelyeknek ez az ertek: "
+            mapM_ (\termek -> putStrLn $ "- " ++ termek) topTermek
+
+
+fel10 = do
+    --10. feladat tesztelése
+    let termekek = [("Laptop", 5, 300000), ("Eger", 50, 10000), ("Monitor", 11, 150000), ("Billentyuzet", 20, 25000)]
+
+    raktarKeszlet termekek
+

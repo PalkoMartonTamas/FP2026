@@ -58,7 +58,7 @@ osztok n = [i | i <- [1..n], mod n i == 0]
 
 osztokSz n = length $ osztok n
 
-osztokSz2 n = length $ osztok n
+osztokSz2 n = myLength $ osztok n
     where
         myLength [] = 0
         myLength (_ : ls) = 1 + myLength ls

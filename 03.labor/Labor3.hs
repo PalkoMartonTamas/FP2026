@@ -132,6 +132,9 @@ elsoUtolso2 (x : xs) = xs ++ [x]
 
 
 -- meghatározza egy egész elemű lista elemeinek átlagértékét,
+
+avgLs ls = sum ls / fromIntegral (length ls)
+
 -- meghatározza egy 10-es számrendszerbeli szám p számrendszerbeli alakját,
 decP x p 
     | x < 0 = error "neg. szam"
@@ -166,7 +169,7 @@ type Pont = (Double, Double)
 
 lsP = [(4.5,6.2),(1.2,3.4),(6,8),(4.5,2.4)]
 
-p = (3.4, 5.6)
+p = (1.4, 3.6)
 
 tavolsag (x1,y1) (x2,y2) = sqrt((x1-x2)**2+(y1-y2)**2)
 

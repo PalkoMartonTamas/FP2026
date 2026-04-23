@@ -169,7 +169,7 @@ pitagorasz n = [(a,b,c) | c <- [1..n], b <- [1..c], a <- [1..b], a^2 + b^2 == c^
 
 
 -- a következő listát: $$[(\texttt{a},0), (\texttt{b},1),\ldots, (\texttt{z}, 25)]$$,
-betuSzam = zip ['a'..'z'] [0..10]
+betuSzam = zip ['a'..'z'] [0..25]
 
 -- a következő listát: $$[(0, 5), (1, 4), (2, 3), (3, 2), (4, 1), (5, 0)]$$, majd általánosítsuk a feladatot.
 szamok = zip [0..5] [5,4..0]
